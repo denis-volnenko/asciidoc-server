@@ -27,10 +27,16 @@ public final class ProcessorAsciiDoc implements Processor {
     private static Path BASE_PATH = getBasePath();
 
     @NonNull
-    private final String header = header();
+    private final String headerADOC = headerADOC();
 
     @NonNull
-    private final String footer = footer();
+    private final String headerGUI = headerGUI();
+
+    @NonNull
+    private final String footerADOC = footerADOC();
+
+    @NonNull
+    private final String footerGUI = footerGUI();
 
     @Override
     @SneakyThrows
@@ -58,29 +64,52 @@ public final class ProcessorAsciiDoc implements Processor {
         final String data = new String(bytes);
 
         final String asciidoc = ASCIIDOCTOR.convert(data, OPTIONS);
-        response.getWriter().println(header);
+        response.getWriter().println(headerADOC);
+        response.getWriter().println(headerGUI);
         response.getWriter().println(asciidoc);
-        response.getWriter().println(footer);
+        response.getWriter().println(footerGUI);
+        response.getWriter().println(footerADOC);
         response.getWriter().flush();
         return true;
     }
 
+    @NonNull
     private static Path getBasePath() {
         return Path.of("").toAbsolutePath();
     }
 
-    public boolean valid(@NonNull String name) {
+    public boolean valid(@NonNull final String name) {
         return name.toLowerCase().endsWith(".adoc");
     }
 
+    @NonNull
     @SneakyThrows
-    private static String header() {
-        return new String(ClassLoader.getSystemResourceAsStream("header_adoc.html").readAllBytes());
+    private static String headerADOC() {
+        return resource("header_adoc.html");
     }
 
+    @NonNull
     @SneakyThrows
-    private static String footer() {
-        return new String(ClassLoader.getSystemResourceAsStream("footer_adoc.html").readAllBytes());
+    private static String footerADOC() {
+        return resource("footer_adoc.html");
+    }
+
+    @NonNull
+    @SneakyThrows
+    private static String headerGUI() {
+        return resource("header_gui.html");
+    }
+
+    @NonNull
+    @SneakyThrows
+    private static String footerGUI() {
+        return resource("footer_gui.html");
+    }
+
+    @NonNull
+    @SneakyThrows
+    private static String resource(@NonNull final String name) {
+        return new String(ClassLoader.getSystemResourceAsStream(name).readAllBytes());
     }
 
 }
