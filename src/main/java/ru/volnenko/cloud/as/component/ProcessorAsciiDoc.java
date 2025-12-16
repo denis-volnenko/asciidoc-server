@@ -30,7 +30,7 @@ public final class ProcessorAsciiDoc implements Processor {
     private final String header = header();
 
     @NonNull
-    private final String footter = footer();
+    private final String footer = footer();
 
     @Override
     @SneakyThrows
@@ -60,7 +60,7 @@ public final class ProcessorAsciiDoc implements Processor {
         final String asciidoc = ASCIIDOCTOR.convert(data, OPTIONS);
         response.getWriter().println(header);
         response.getWriter().println(asciidoc);
-        response.getWriter().println(footter);
+        response.getWriter().println(footer);
         response.getWriter().flush();
         return true;
     }
@@ -75,12 +75,12 @@ public final class ProcessorAsciiDoc implements Processor {
 
     @SneakyThrows
     private static String header() {
-        return new String(ClassLoader.getSystemResourceAsStream("header.html").readAllBytes());
+        return new String(ClassLoader.getSystemResourceAsStream("header_adoc.html").readAllBytes());
     }
 
     @SneakyThrows
     private static String footer() {
-        return new String(ClassLoader.getSystemResourceAsStream("footer.html").readAllBytes());
+        return new String(ClassLoader.getSystemResourceAsStream("footer_adoc.html").readAllBytes());
     }
 
 }

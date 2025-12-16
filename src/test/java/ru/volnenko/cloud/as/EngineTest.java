@@ -13,7 +13,7 @@ public class EngineTest {
 
     public final static String asciidocSource =
         """
-        = Document Name
+        =Document Name
         :toc:
         
         == Первая глава
