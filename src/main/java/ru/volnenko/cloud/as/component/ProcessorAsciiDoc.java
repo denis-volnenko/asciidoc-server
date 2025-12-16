@@ -1,19 +1,27 @@
 package ru.volnenko.cloud.as.component;
 
+import freemarker.template.Template;
+import jnr.a64asm.OP;
+import lombok.Cleanup;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.asciidoctor.Asciidoctor;
 import org.asciidoctor.Options;
 import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.SafeMode;
+import org.asciidoctor.ast.Document;
 import org.eclipse.jetty.http.HttpContent;
 import ru.volnenko.cloud.as.util.FileUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public final class ProcessorAsciiDoc implements Processor {
 
@@ -27,16 +35,10 @@ public final class ProcessorAsciiDoc implements Processor {
     private static Path BASE_PATH = getBasePath();
 
     @NonNull
-    private final String headerADOC = headerADOC();
+    private final TemplateProcessor processorFreeMarker = new TemplateProcessor();
 
     @NonNull
-    private final String headerGUI = headerGUI();
-
-    @NonNull
-    private final String footerADOC = footerADOC();
-
-    @NonNull
-    private final String footerGUI = footerGUI();
+    private final Template template = processorFreeMarker.getIndexTemplate();
 
     @Override
     @SneakyThrows
@@ -61,15 +63,16 @@ public final class ProcessorAsciiDoc implements Processor {
             throw new SecurityException("Invalid file path: " + file + ". Access denied.");
         }
         final byte[] bytes = Files.readAllBytes(resolvedPath);
-        final String data = new String(bytes);
+        final String adoc = new String(bytes);
 
-        final String asciidoc = ASCIIDOCTOR.convert(data, OPTIONS);
-        response.getWriter().println(headerADOC);
-        response.getWriter().println(headerGUI);
-        response.getWriter().println(asciidoc);
-        response.getWriter().println(footerGUI);
-        response.getWriter().println(footerADOC);
-        response.getWriter().flush();
+        Document document = ASCIIDOCTOR.load(adoc, OPTIONS);
+
+        final String html = ASCIIDOCTOR.convert(adoc, OPTIONS);
+        final Map<String, Object> data = new LinkedHashMap<>();
+        data.put("body", html);
+        data.put("title", document.getTitle());
+        template.process(data, response.getWriter());
+
         return true;
     }
 
@@ -80,36 +83,6 @@ public final class ProcessorAsciiDoc implements Processor {
 
     public boolean valid(@NonNull final String name) {
         return name.toLowerCase().endsWith(".adoc");
-    }
-
-    @NonNull
-    @SneakyThrows
-    private static String headerADOC() {
-        return resource("header_adoc.html");
-    }
-
-    @NonNull
-    @SneakyThrows
-    private static String footerADOC() {
-        return resource("footer_adoc.html");
-    }
-
-    @NonNull
-    @SneakyThrows
-    private static String headerGUI() {
-        return resource("header_gui.html");
-    }
-
-    @NonNull
-    @SneakyThrows
-    private static String footerGUI() {
-        return resource("footer_gui.html");
-    }
-
-    @NonNull
-    @SneakyThrows
-    private static String resource(@NonNull final String name) {
-        return new String(ClassLoader.getSystemResourceAsStream(name).readAllBytes());
     }
 
 }
