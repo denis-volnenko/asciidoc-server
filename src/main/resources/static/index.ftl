@@ -439,9 +439,35 @@
     </style>
 </head>
 <body>
+
+<table border="0" cellpadding="0" cellspacing="0" style="border-style: none; margin: 0;">
+    <tr>
+        <td colspan="2" bgcolor="black" style="color: white;">
+            ASCIIDOC
+        </td>
+    </tr>
+    <tr>
+        <td valign="top" width="200" nowrap="nowrap" style="min-width: 200px; max-width: 200px;">
+            <p><a href="index.adoc">ГЛАВНАЯ</a></p>
+            <p><a href="contacts.adoc">КОНТАКТЫ</a></p>
+        </td>
+        </td>
+        <td width="100%">
+
+
 <#if body?has_content>
     ${body}
 </#if>
+
+        </td>
+    </tr>
+    <tr>
+        <td></td>
+        <td align="center">
+            denis@volnenko.ru
+        </td>
+    </tr>
+</table>
 
 </body>
 </html><script>
