@@ -9,6 +9,7 @@
             ${title}
         </#if>
     </title>
+    <link rel="stylesheet" type="text/css" href="/assets/css/fonts.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
     <style>
         /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -441,12 +442,12 @@
 
 <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" style="border-style: none; margin: 0;">
     <tr bgcolor="black">
-        <td nowrap="nowrap" width="${menuLeftSize}">
+        <td nowrap="nowrap" width="${menuLeftSize}" style="font-family: RobotoRegular;">
             <#if caption?? && caption?has_content>
-                <a href="/" style="text-decoration: none; color: white; font-size: 1.3em;">${caption}</a>
+                <a href="/" style="font-weight: bold; text-decoration: none; color: white; font-size: 1.3em;">${caption}</a>
             </#if>
         </td>
-        <td width="100%" align="right">
+        <td width="100%" align="right" style="font-family: RobotoRegular;">
             <#if menuMain?? && menuMain?size &gt; 0>
                 <#list menuMain as menuItem>
                     <a href="${menuItem.link}" style="text-decoration:none; color: white; margin-right: 20px; border-bottom: 1px dashed white;">${menuItem.name}</a>
@@ -456,7 +457,7 @@
     </tr>
     <tr>
         <#if menuLeftEnabled>
-            <td valign="top" width="${menuLeftSize}" style="background-color: #f3f3f2; width: ${menuLeftSize}px; max-width: ${menuLeftSize}px; min-width: ${menuLeftSize}px;">
+            <td valign="top" width="${menuLeftSize}" style="font-family: RobotoRegular; background-color: #f3f3f2; width: ${menuLeftSize}px; max-width: ${menuLeftSize}px; min-width: ${menuLeftSize}px;">
                 <#if menuLeft?? && menuLeft?size &gt; 0>
                     <#list menuLeft as menuItem>
                         <div style="margin-bottom: 5px;">
@@ -474,7 +475,7 @@
     </tr>
     <#if footer?? && footer?has_content>
     <tr>
-        <td colspan="2" align="center">${footer}</td>
+        <td colspan="2" align="center" style="font-family: RobotoRegular;">${footer}</td>
     </tr>
     </#if>
 </table>
