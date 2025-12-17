@@ -1,9 +1,11 @@
 package ru.volnenko.cloud.as.component;
 
 import lombok.NonNull;
+import lombok.SneakyThrows;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.ResourceService;
 import org.eclipse.jetty.server.handler.ResourceHandler;
+import ru.volnenko.cloud.as.util.FileUtil;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -27,12 +29,23 @@ public final class CustomHandler extends ResourceHandler {
             final HttpServletRequest request,
             final HttpServletResponse response
     ) throws IOException, ServletException {
+        @NonNull final String file = FileUtil.prepare(request.getRequestURI());
+        if (file.startsWith("assets/")) {
+            response.getOutputStream().write(resource(file));
+            response.getOutputStream().flush();
+            return;
+        }
         resourceService.doGet(request, response);
         if (response.isCommitted()) {
             baseRequest.setHandled(true);
         } else {
             super.handle(target, baseRequest, request, response);
         }
+    }
+
+    @SneakyThrows
+    private byte[] resource(@NonNull final String resource) {
+        return ClassLoader.getSystemResourceAsStream(resource).readAllBytes();
     }
 
 }

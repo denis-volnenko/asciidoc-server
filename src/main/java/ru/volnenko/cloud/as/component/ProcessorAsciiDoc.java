@@ -84,5 +84,6 @@ public final class ProcessorAsciiDoc implements Processor {
         return name.toLowerCase().endsWith(".adoc");
     }
 
+
 }
 

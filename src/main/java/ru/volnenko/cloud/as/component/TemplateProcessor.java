@@ -38,7 +38,7 @@ public final class TemplateProcessor {
             @NonNull final DefaultObjectWrapper wrapper,
             @NonNull final TemplateLoader fileTemplateLoader
     ) {
-        final Configuration configuration = new Configuration();
+        @NonNull final Configuration configuration = new Configuration();
         configuration.setObjectWrapper(wrapper);
         configuration.setTemplateLoader(fileTemplateLoader);
         configuration.setDefaultEncoding("UTF-8");
@@ -48,11 +48,11 @@ public final class TemplateProcessor {
 
     @SneakyThrows
     public static void main(String[] args) {
-        TemplateProcessor processorFreeMarker = new TemplateProcessor();
-        Template template = processorFreeMarker.getIndexTemplate();
-        Map<String, Object> data = new LinkedHashMap<>();
+        @NonNull final TemplateProcessor processorFreeMarker = new TemplateProcessor();
+        @NonNull final Template template = processorFreeMarker.getIndexTemplate();
+        @NonNull final Map<String, Object> data = new LinkedHashMap<>();
         data.put("body", "123");
-        @Cleanup Writer out = new StringWriter();
+        @Cleanup final Writer out = new StringWriter();
         template.process(data, out);
         System.out.println(out);
     }
