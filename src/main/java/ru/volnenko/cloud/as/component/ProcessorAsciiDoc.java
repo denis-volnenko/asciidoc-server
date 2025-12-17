@@ -10,6 +10,7 @@ import org.asciidoctor.SafeMode;
 import org.asciidoctor.ast.Document;
 import org.eclipse.jetty.http.HttpContent;
 import ru.volnenko.cloud.as.dto.Root;
+import ru.volnenko.cloud.as.util.EnvUtil;
 import ru.volnenko.cloud.as.util.FileUtil;
 
 import javax.servlet.http.HttpServletRequest;
@@ -63,6 +64,7 @@ public final class ProcessorAsciiDoc implements Processor {
         @NonNull final Map<String, Object> data = new LinkedHashMap<>();
         data.put("body", html);
         data.put("title", document.getTitle());
+        data.put("caption", EnvUtil.caption());
         data.put("menuLeft", root.left().getItems());
         data.put("menuMain", root.main().getItems());
         template.process(data, response.getWriter());

@@ -443,6 +443,10 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-style: none; margin: 0;">
     <tr bgcolor="black">
         <td nowrap="nowrap">
+            <#if caption?? && caption?has_content>
+                <a href="/" style="text-decoration: none; color: white; font-size: 1.5em;">${caption}</a>
+            </#if>
+        </td>
         <td width="100%" align="right">
             <#if menuMain?? && menuMain?size &gt; 0>
                 <#list menuMain as menuItem>
@@ -450,24 +454,20 @@
                 </#list>
             </#if>
             &nbsp;&nbsp;&nbsp;
-
         </td>
     </tr>
     <tr>
         <td width="100%" colspan="2">
-
-
-<#if body?has_content>
-    ${body}
-</#if>
-
+            <#if body?? && body?has_content>
+                ${body}
+            </#if>
         </td>
     </tr>
+    <#if footer?? && footer?has_content>
     <tr>
-        <td colspan="2" align="center">
-            denis@volnenko.ru
-        </td>
+        <td colspan="2" align="center">${footer}</td>
     </tr>
+    </#if>
 </table>
 
 </body>

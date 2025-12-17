@@ -21,7 +21,12 @@ public final class CustomHandler extends ResourceHandler {
     }
 
     @Override
-    public void handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void handle(
+            final String target,
+            final Request baseRequest,
+            final HttpServletRequest request,
+            final HttpServletResponse response
+    ) throws IOException, ServletException {
         resourceService.doGet(request, response);
         if (response.isCommitted()) {
             baseRequest.setHandled(true);
