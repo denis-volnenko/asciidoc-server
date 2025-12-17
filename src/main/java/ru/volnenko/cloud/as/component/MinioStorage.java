@@ -10,12 +10,12 @@ public final class MinioStorage implements Storage {
     private final MinioClient minioClient = MinioUtil.client();
 
     @Override
-    public String text(@NonNull String resource) {
+    public String text(@NonNull final String resource) {
         return null;
     }
 
     @Override
-    public byte[] bytes(@NonNull String resource) {
+    public byte[] bytes(@NonNull final String resource) {
         return new byte[0];
     }
 
