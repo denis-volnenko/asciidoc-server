@@ -7,6 +7,11 @@ import lombok.experimental.UtilityClass;
 public class EnvUtil {
 
     @NonNull
+    public static String menuLeftSize() {
+        return value("MENU_LEFT_SIZE", "250");
+    }
+
+    @NonNull
     public static String caption() {
         return value("CAPTION", "ASCIIDOC");
     }

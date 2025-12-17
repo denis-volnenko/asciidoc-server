@@ -96,6 +96,10 @@ public final class Menu {
         return sb.toString();
     }
 
+    public boolean enabled() {
+        return !items.isEmpty();
+    }
+
     @NonNull
     @Override
     public String toString() {

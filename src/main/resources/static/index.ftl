@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -440,24 +439,34 @@
 </head>
 <body>
 
-<table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-style: none; margin: 0;">
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" style="border-style: none; margin: 0;">
     <tr bgcolor="black">
-        <td nowrap="nowrap">
+        <td nowrap="nowrap" width="${menuLeftSize}">
             <#if caption?? && caption?has_content>
-                <a href="/" style="text-decoration: none; color: white; font-size: 1.5em;">${caption}</a>
+                <a href="/" style="text-decoration: none; color: white; font-size: 1.3em;">${caption}</a>
             </#if>
         </td>
         <td width="100%" align="right">
             <#if menuMain?? && menuMain?size &gt; 0>
                 <#list menuMain as menuItem>
-                    <a href="${menuItem.link}" style="text-decoration:none; color: white; margin-left: 20px; border-bottom: 1px dashed white;">${menuItem.name}</a>
+                    <a href="${menuItem.link}" style="text-decoration:none; color: white; margin-right: 20px; border-bottom: 1px dashed white;">${menuItem.name}</a>
                 </#list>
             </#if>
-            &nbsp;&nbsp;&nbsp;
         </td>
     </tr>
     <tr>
-        <td width="100%" colspan="2">
+        <#if menuLeftEnabled>
+            <td valign="top" width="${menuLeftSize}" style="background-color: #f3f3f2; width: ${menuLeftSize}px; max-width: ${menuLeftSize}px; min-width: ${menuLeftSize}px;">
+                <#if menuLeft?? && menuLeft?size &gt; 0>
+                    <#list menuLeft as menuItem>
+                        <div style="margin-bottom: 5px;">
+                            <a href="${menuItem.link}" style="margin-left: 10px;">${menuItem.name}</a>
+                        </div>
+                    </#list>
+                </#if>
+            </td>
+        </#if>
+        <td style="padding-left: 20px; padding-right: 20px;" valign="top" width="100%" height="100%" <#if !menuLeftEnabled>colspan="2"</#if>>
             <#if body?? && body?has_content>
                 ${body}
             </#if>
