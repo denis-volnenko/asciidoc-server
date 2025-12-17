@@ -15,11 +15,16 @@ import ru.volnenko.cloud.as.util.FileUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class ProcessorAsciiDoc implements Processor {
+
+    @NonNull
+    private static Path BASE_PATH = getBasePath();
 
     @NonNull
     private static final Asciidoctor ASCIIDOCTOR = Asciidoctor.Factory.create();
@@ -36,9 +41,6 @@ public final class ProcessorAsciiDoc implements Processor {
     @NonNull
     private final Root root = Root.env();
 
-    @NonNull
-    private final Storage storage = Storage.create();
-
     @Override
     @SneakyThrows
     public boolean process(
@@ -50,7 +52,12 @@ public final class ProcessorAsciiDoc implements Processor {
     ) {
         response.setCharacterEncoding("UTF-8");
         @NonNull final String file = FileUtil.prepare(request.getRequestURI());
-        @NonNull final String adoc = storage.text(file);
+
+        @NonNull final Path resolvedPath = BASE_PATH.resolve(file);
+        if (!resolvedPath.startsWith(BASE_PATH)) throw new SecurityException("Invalid file path: " + file + ". Access denied.");
+        @NonNull final byte[] bytes = Files.readAllBytes(resolvedPath);
+        @NonNull final String adoc = new String(bytes);
+
         @NonNull final Document document = ASCIIDOCTOR.load(adoc, OPTIONS);
         @NonNull final String html = ASCIIDOCTOR.convert(adoc, OPTIONS);
 
@@ -70,6 +77,11 @@ public final class ProcessorAsciiDoc implements Processor {
 
     public boolean valid(@NonNull final String name) {
         return name.toLowerCase().endsWith(".adoc");
+    }
+
+    @NonNull
+    private static Path getBasePath() {
+        return Path.of("").toAbsolutePath();
     }
 
 }
