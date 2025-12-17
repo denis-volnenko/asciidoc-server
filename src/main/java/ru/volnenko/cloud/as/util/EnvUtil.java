@@ -13,17 +13,17 @@ public class EnvUtil {
 
     @NonNull
     public static String minioAccessKey() {
-        return value("MINIO_ACCESS_KEY", "minio");
+        return value("MINIO_ACCESS_KEY", "minioadmin");
     }
 
     @NonNull
     public static String minioSecretKey() {
-        return value("MINIO_SECRET_KEY", "minio");
+        return value("MINIO_SECRET_KEY", "minioadmin");
     }
 
     @NonNull
     public static String minioBucket() {
-        return value("MINIO_BUCKET", "minio");
+        return value("MINIO_BUCKET", "asciidoc");
     }
 
     @NonNull
