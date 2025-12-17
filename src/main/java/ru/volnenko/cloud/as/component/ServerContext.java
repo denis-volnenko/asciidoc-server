@@ -57,7 +57,7 @@ public final class ServerContext {
             @NonNull final String[] welcomeFiles
     ) {
         @NonNull final CustomHandler resourceHandler = new CustomHandler(fileService);
-        resourceHandler.setDirectoriesListed(false);
+        resourceHandler.setDirectoriesListed(true);
         resourceHandler.setRedirectWelcome(false);
         resourceHandler.setWelcomeFiles(welcomeFiles);
         resourceHandler.setResourceBase(WEBAPP);
