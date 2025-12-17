@@ -440,19 +440,21 @@
 </head>
 <body>
 
-<table border="0" cellpadding="0" cellspacing="0" style="border-style: none; margin: 0;">
-    <tr>
-        <td colspan="2" bgcolor="black" style="color: white;">
-            ASCIIDOC
+<table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-style: none; margin: 0;">
+    <tr bgcolor="black">
+        <td nowrap="nowrap">
+        <td width="100%" align="right">
+            <#if menuMain?? && menuMain?size &gt; 0>
+                <#list menuMain as menuItem>
+                    <a href="${menuItem.link}" style="text-decoration:none; color: white; margin-left: 20px; border-bottom: 1px dashed white;">${menuItem.name}</a>
+                </#list>
+            </#if>
+            &nbsp;&nbsp;&nbsp;
+
         </td>
     </tr>
     <tr>
-        <td valign="top" width="200" nowrap="nowrap" style="min-width: 200px; max-width: 200px;">
-            <p><a href="index.adoc">ГЛАВНАЯ</a></p>
-            <p><a href="contacts.adoc">КОНТАКТЫ</a></p>
-        </td>
-        </td>
-        <td width="100%">
+        <td width="100%" colspan="2">
 
 
 <#if body?has_content>
@@ -462,8 +464,7 @@
         </td>
     </tr>
     <tr>
-        <td></td>
-        <td align="center">
+        <td colspan="2" align="center">
             denis@volnenko.ru
         </td>
     </tr>

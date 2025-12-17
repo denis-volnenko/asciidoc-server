@@ -1,14 +1,17 @@
 = HELLO
-:toc:
+:toc: left
 :showtitle:
 
-== TEST
+== TEST2
 
 [cols="20,80"]
 |===
 
 |KEY
 |VALUE
+
+|2
+|3
 
 |===
 

@@ -1,8 +1,6 @@
 package ru.volnenko.cloud.as.component;
 
 import freemarker.template.Template;
-import jnr.a64asm.OP;
-import lombok.Cleanup;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.asciidoctor.Asciidoctor;
@@ -11,12 +9,11 @@ import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.SafeMode;
 import org.asciidoctor.ast.Document;
 import org.eclipse.jetty.http.HttpContent;
+import ru.volnenko.cloud.as.dto.Root;
 import ru.volnenko.cloud.as.util.FileUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.StringWriter;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Enumeration;
@@ -40,6 +37,9 @@ public final class ProcessorAsciiDoc implements Processor {
     @NonNull
     private final Template template = processorFreeMarker.getIndexTemplate();
 
+    @NonNull
+    private final Root root = Root.env();
+
     @Override
     @SneakyThrows
     public boolean process(
@@ -50,27 +50,21 @@ public final class ProcessorAsciiDoc implements Processor {
             final Enumeration<String> reqRanges
     ) {
         response.setCharacterEncoding("UTF-8");
-
-//        org.thymeleaf.context.Context context = new org.thymeleaf.context.Context();
-//        context.setVariable("request", request);
-//        context.setVariable("response", response);
-//        context.setVariable("context", new ContextProxy(request, response));
-
         @NonNull final String file = FileUtil.prepare(request.getRequestURI());
-        Path resolvedPath = BASE_PATH.resolve(file);
-        // 2. Crucial Security Check: Ensure the resolved path is still inside the base directory
-        if (!resolvedPath.startsWith(BASE_PATH)) {
-            throw new SecurityException("Invalid file path: " + file + ". Access denied.");
-        }
-        final byte[] bytes = Files.readAllBytes(resolvedPath);
-        final String adoc = new String(bytes);
+        @NonNull final Path resolvedPath = BASE_PATH.resolve(file);
+        if (!resolvedPath.startsWith(BASE_PATH)) throw new SecurityException("Invalid file path: " + file + ". Access denied.");
 
-        Document document = ASCIIDOCTOR.load(adoc, OPTIONS);
+        @NonNull final byte[] bytes = Files.readAllBytes(resolvedPath);
+        @NonNull final String adoc = new String(bytes);
 
-        final String html = ASCIIDOCTOR.convert(adoc, OPTIONS);
-        final Map<String, Object> data = new LinkedHashMap<>();
+        @NonNull final Document document = ASCIIDOCTOR.load(adoc, OPTIONS);
+        @NonNull final String html = ASCIIDOCTOR.convert(adoc, OPTIONS);
+
+        @NonNull final Map<String, Object> data = new LinkedHashMap<>();
         data.put("body", html);
         data.put("title", document.getTitle());
+        data.put("menuLeft", root.left().getItems());
+        data.put("menuMain", root.main().getItems());
         template.process(data, response.getWriter());
 
         return true;
