@@ -65,6 +65,7 @@ public final class ProcessorAsciiDoc implements Processor {
         data.put("body", html);
         data.put("title", document.getTitle());
         data.put("caption", EnvUtil.caption());
+        data.put("footer", EnvUtil.footer());
         data.put("menuLeft", root.left().getItems());
         data.put("menuLeftEnabled", root.left().enabled());
         data.put("menuLeftSize", EnvUtil.menuLeftSize());

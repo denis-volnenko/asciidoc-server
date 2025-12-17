@@ -12,11 +12,6 @@ public class EnvUtil {
     }
 
     @NonNull
-    public static String storageType() {
-        return value("STORAGE_TYPE", "MINIO");
-    }
-
-    @NonNull
     public static String caption() {
         return value("CAPTION", "ASCIIDOC");
     }
