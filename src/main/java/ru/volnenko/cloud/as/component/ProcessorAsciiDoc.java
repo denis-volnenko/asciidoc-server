@@ -8,6 +8,7 @@ import org.asciidoctor.Options;
 import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.SafeMode;
 import org.asciidoctor.ast.Document;
+import org.checkerframework.checker.units.qual.N;
 import org.eclipse.jetty.http.HttpContent;
 import ru.volnenko.cloud.as.dto.Root;
 import ru.volnenko.cloud.as.util.EnvUtil;
@@ -30,9 +31,6 @@ public final class ProcessorAsciiDoc implements Processor {
     private static final Options OPTIONS = OptionsBuilder.options().backend("html5").safe(SafeMode.UNSAFE).build();
 
     @NonNull
-    private static Path BASE_PATH = getBasePath();
-
-    @NonNull
     private final TemplateProcessor processorFreeMarker = new TemplateProcessor();
 
     @NonNull
@@ -40,6 +38,9 @@ public final class ProcessorAsciiDoc implements Processor {
 
     @NonNull
     private final Root root = Root.env();
+
+    @NonNull
+    private final Storage storage = Storage.create();
 
     @Override
     @SneakyThrows
@@ -52,12 +53,7 @@ public final class ProcessorAsciiDoc implements Processor {
     ) {
         response.setCharacterEncoding("UTF-8");
         @NonNull final String file = FileUtil.prepare(request.getRequestURI());
-        @NonNull final Path resolvedPath = BASE_PATH.resolve(file);
-        if (!resolvedPath.startsWith(BASE_PATH)) throw new SecurityException("Invalid file path: " + file + ". Access denied.");
-
-        @NonNull final byte[] bytes = Files.readAllBytes(resolvedPath);
-        @NonNull final String adoc = new String(bytes);
-
+        @NonNull final String adoc = storage.text(file);
         @NonNull final Document document = ASCIIDOCTOR.load(adoc, OPTIONS);
         @NonNull final String html = ASCIIDOCTOR.convert(adoc, OPTIONS);
 
@@ -75,10 +71,6 @@ public final class ProcessorAsciiDoc implements Processor {
         return true;
     }
 
-    @NonNull
-    private static Path getBasePath() {
-        return Path.of("").toAbsolutePath();
-    }
 
     public boolean valid(@NonNull final String name) {
         return name.toLowerCase().endsWith(".adoc");
