@@ -21,7 +21,7 @@
             <outputDirectory>/bin</outputDirectory>
         </file>
         <file>
-            <source>${project.basedir}/src/main/assembly/release/www/.gitempty</source>
+            <source>${project.basedir}/src/main/assembly/release/data/index.adoc</source>
             <outputDirectory>/data</outputDirectory>
         </file>
     </files>

@@ -79,6 +79,7 @@
     </properties>
 
     <build>
+        <finalName>asciidoc-server</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -87,7 +88,8 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>ru.volnenko.lib.tailws.Tail</mainClass>
+                            <classpathPrefix>../lib/</classpathPrefix>
+                            <mainClass>ru.volnenko.cloud.as.Server</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
