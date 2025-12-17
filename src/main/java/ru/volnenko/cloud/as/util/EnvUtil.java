@@ -7,8 +7,33 @@ import lombok.experimental.UtilityClass;
 public class EnvUtil {
 
     @NonNull
+    public static String minioEndpoint() {
+        return value("MINIO_ENDPOINT", "http://localhost:9000");
+    }
+
+    @NonNull
+    public static String minioAccessKey() {
+        return value("MINIO_ACCESS_KEY", "minio");
+    }
+
+    @NonNull
+    public static String minioSecretKey() {
+        return value("MINIO_SECRET_KEY", "minio");
+    }
+
+    @NonNull
+    public static String minioBucket() {
+        return value("MINIO_BUCKET", "minio");
+    }
+
+    @NonNull
     public static String menuLeftSize() {
         return value("MENU_LEFT_SIZE", "250");
+    }
+
+    @NonNull
+    public static String storageType() {
+        return value("STORAGE_TYPE", "FILE");
     }
 
     @NonNull
