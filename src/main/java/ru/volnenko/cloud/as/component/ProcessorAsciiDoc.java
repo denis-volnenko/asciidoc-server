@@ -8,7 +8,6 @@ import org.asciidoctor.Options;
 import org.asciidoctor.OptionsBuilder;
 import org.asciidoctor.SafeMode;
 import org.asciidoctor.ast.Document;
-import org.checkerframework.checker.units.qual.N;
 import org.eclipse.jetty.http.HttpContent;
 import ru.volnenko.cloud.as.dto.Root;
 import ru.volnenko.cloud.as.util.EnvUtil;
@@ -16,8 +15,6 @@ import ru.volnenko.cloud.as.util.FileUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -71,11 +68,9 @@ public final class ProcessorAsciiDoc implements Processor {
         return true;
     }
 
-
     public boolean valid(@NonNull final String name) {
         return name.toLowerCase().endsWith(".adoc");
     }
-
 
 }
 
