@@ -6,6 +6,14 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class EnvUtil {
 
+    public static boolean directoriesListed() {
+        return value("DIRECTORIES_LISTED", "true").equals("true");
+    }
+
+    public static boolean redirectWelcome() {
+        return value("REDIRECT_WELCOME", "false").equals("true");
+    }
+
     @NonNull
     public static String menuLeftSize() {
         return value("MENU_LEFT_SIZE", "250");

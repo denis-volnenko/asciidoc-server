@@ -10,6 +10,7 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.DefaultHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
+import ru.volnenko.cloud.as.util.EnvUtil;
 
 public final class ServerContext {
 
@@ -57,8 +58,8 @@ public final class ServerContext {
             @NonNull final String[] welcomeFiles
     ) {
         @NonNull final CustomHandler resourceHandler = new CustomHandler(fileService);
-        resourceHandler.setDirectoriesListed(true);
-        resourceHandler.setRedirectWelcome(false);
+        resourceHandler.setDirectoriesListed(EnvUtil.directoriesListed());
+        resourceHandler.setRedirectWelcome(EnvUtil.redirectWelcome());
         resourceHandler.setWelcomeFiles(welcomeFiles);
         resourceHandler.setResourceBase(WEBAPP);
         return resourceHandler;
