@@ -439,15 +439,14 @@
     </style>
 </head>
 <body>
-
 <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" style="border-style: none; margin: 0;">
     <tr bgcolor="black">
-        <td nowrap="nowrap" width="${menuLeftSize}" style="font-family: RobotoRegular;">
+        <td height="50" nowrap="nowrap" width="${menuLeftSize}" style="padding: 0;">
             <#if caption?? && caption?has_content>
-                <a href="/" style="font-weight: bold; text-decoration: none; color: white; font-size: 1.3em;">${caption}</a>
+                <a href="/" style="margin-left: 20px; font-family: RobotoRegular; text-decoration: none; color: white; font-size: 25px;">${caption}</a>
             </#if>
         </td>
-        <td width="100%" align="right" style="font-family: RobotoRegular;">
+        <td width="100%" align="right" style="font-family: RobotoRegular;padding: 0;">
             <#if menuMain?? && menuMain?size &gt; 0>
                 <#list menuMain as menuItem>
                     <a href="${menuItem.link}" style="text-decoration:none; color: white; margin-right: 20px; border-bottom: 1px dashed white;">${menuItem.name}</a>
