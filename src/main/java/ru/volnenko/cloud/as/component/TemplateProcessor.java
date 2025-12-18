@@ -20,6 +20,9 @@ public final class TemplateProcessor {
     private final static String INDEX = "index.ftl";
 
     @NonNull
+    private final static String ERROR = "error.ftl";
+
+    @NonNull
     private final DefaultObjectWrapper wrapper = new DefaultObjectWrapper();
 
     @NonNull
@@ -60,6 +63,12 @@ public final class TemplateProcessor {
     @NonNull
     @SneakyThrows
     public Template getIndexTemplate() {
+        return classTemplateConfiguration.getTemplate(INDEX);
+    }
+
+    @NonNull
+    @SneakyThrows
+    public Template getErrorTemplate() {
         return classTemplateConfiguration.getTemplate(INDEX);
     }
 

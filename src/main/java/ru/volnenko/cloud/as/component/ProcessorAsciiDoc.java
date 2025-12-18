@@ -33,13 +33,18 @@ public final class ProcessorAsciiDoc implements Processor {
     private static final Options OPTIONS = OptionsBuilder.options().backend("html5").safe(SafeMode.UNSAFE).build();
 
     @NonNull
-    private final TemplateProcessor processorFreeMarker = new TemplateProcessor();
+    private final TemplateProcessor processorFreeMarker;
 
     @NonNull
-    private final Template template = processorFreeMarker.getIndexTemplate();
+    private final Template template;
 
     @NonNull
     private final Root root = Root.env();
+
+    public ProcessorAsciiDoc(@NonNull final TemplateProcessor processorFreeMarker) {
+        this.processorFreeMarker = processorFreeMarker;
+        this.template = processorFreeMarker.getIndexTemplate();
+    }
 
     @Override
     @SneakyThrows

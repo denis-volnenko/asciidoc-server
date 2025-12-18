@@ -3,14 +3,16 @@ package ru.volnenko.cloud.as.component;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.apache.log4j.BasicConfigurator;
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.DefaultHandler;
+import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import ru.volnenko.cloud.as.util.EnvUtil;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 public final class ServerContext {
 
@@ -24,7 +26,10 @@ public final class ServerContext {
     private final String[] welcomeFiles = welcomeFiles();
 
     @NonNull
-    private final ProcessorAsciiDoc processorAsciiDoc = new ProcessorAsciiDoc();
+    private final TemplateProcessor processorFreeMarker = new TemplateProcessor();
+
+    @NonNull
+    private final ProcessorAsciiDoc processorAsciiDoc = new ProcessorAsciiDoc(processorFreeMarker);
 
     @NonNull
     private final Processor[] processors = new Processor[] { processorAsciiDoc };
@@ -37,6 +42,9 @@ public final class ServerContext {
 
     @NonNull
     private final CustomHandler customHandler = customHandler(fileService, welcomeFiles);
+
+    @NonNull
+    private final CustomErrorHandler customErrorHandler = new CustomErrorHandler(processorFreeMarker);
 
     @NonNull
     private final ContextHandler contextHandler = contextHandler(customHandler);
@@ -69,6 +77,7 @@ public final class ServerContext {
     private ContextHandler contextHandler(@NonNull final CustomHandler customHandler) {
         @NonNull final ContextHandler contextHandler = new ContextHandler("/");
         contextHandler.setHandler(customHandler);
+        contextHandler.setErrorHandler(customErrorHandler);
         return contextHandler;
     }
 

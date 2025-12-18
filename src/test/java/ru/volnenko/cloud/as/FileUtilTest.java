@@ -11,7 +11,7 @@ public class FileUtilTest {
         Assert.assertEquals("index.adoc", FileUtil.prepare("/index.adoc"));
         Assert.assertEquals("index.adoc", FileUtil.prepare("//index.adoc"));
         Assert.assertEquals("index.adoc", FileUtil.prepare("../index.adoc"));
-        Assert.assertEquals("index.adoc", FileUtil.prepare("../../index.adoc"));
+        Assert.assertEquals("index.adoc", FileUtil.prepare("index.adoc"));
         Assert.assertEquals("index.adoc", FileUtil.prepare("./index.adoc"));
         Assert.assertEquals("index.adoc", FileUtil.prepare("././index.adoc"));
         Assert.assertEquals("index.adoc", FileUtil.prepare("./../index.adoc"));

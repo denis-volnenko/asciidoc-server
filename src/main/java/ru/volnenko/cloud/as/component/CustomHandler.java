@@ -35,12 +35,8 @@ public final class CustomHandler extends ResourceHandler {
             response.getOutputStream().flush();
             return;
         }
+        baseRequest.setHandled(true);
         resourceService.doGet(request, response);
-        if (response.isCommitted()) {
-            baseRequest.setHandled(true);
-        } else {
-            super.handle(target, baseRequest, request, response);
-        }
     }
 
     @SneakyThrows
