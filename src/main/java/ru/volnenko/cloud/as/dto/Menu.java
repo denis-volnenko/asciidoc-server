@@ -63,7 +63,7 @@ public final class Menu {
 
     @NonNull
     private Set<String> keys(@NonNull final Map<String,String> map) {
-        @NonNull final Set<String> keys = new LinkedHashSet<>();
+        @NonNull final Set<String> keys = new TreeSet<>();
         for (final String key: map.keySet()) {
             if (key == null) continue;
             if (!key.startsWith(name)) continue;

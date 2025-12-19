@@ -42,6 +42,7 @@ public final class CustomErrorHandler extends ErrorHandler {
     @SneakyThrows
     public void doError(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) throws IOException {
         baseRequest.setHandled(true);
+        response.setCharacterEncoding("UTF-8");
 
         @NonNull final Map<String, Object> data = new LinkedHashMap<>();
         data.put("body", error);
