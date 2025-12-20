@@ -463,7 +463,7 @@
                             <a href="${menuItem.link}" style="text-decoration: none; border-bottom: 1px dashed #1d4b8f; margin-left: 10px;">${menuItem.name}</a>
                         </div>
                         <#if menuItem.line>
-                            <div style="height: 1px; border-bottom: 1px solid #e7e7e9; margin-top: 10px; margin-bottom: 10px;"></div>
+                            <div style="height: 1px; border-bottom: 1px solid #e7e7e9; margin-top: 14px; margin-bottom: 8px;"></div>
                         </#if>
                     </#list>
                 </#if>
