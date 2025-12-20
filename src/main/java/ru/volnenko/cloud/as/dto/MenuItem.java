@@ -19,4 +19,7 @@ public final class MenuItem {
     @NonNull
     private Boolean line = false;
 
+    @NonNull
+    private Boolean show = true;
+
 }
