@@ -16,4 +16,7 @@ public final class MenuItem {
     @NonNull
     private String link = "";
 
+    @NonNull
+    private Boolean line = false;
+
 }

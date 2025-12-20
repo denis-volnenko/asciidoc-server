@@ -459,9 +459,12 @@
             <td valign="top" width="${menuLeftSize}" style="font-family: RobotoRegular; background-color: #f3f3f2; width: ${menuLeftSize}px; max-width: ${menuLeftSize}px; min-width: ${menuLeftSize}px;">
                 <#if menuLeft?? && menuLeft?size &gt; 0>
                     <#list menuLeft as menuItem>
-                        <div style="margin-bottom: 5px;">
-                            <a href="${menuItem.link}" style="margin-left: 10px;">${menuItem.name}</a>
+                        <div style="margin-bottom: 5px; text-wrap: none;">
+                            <a href="${menuItem.link}" style="text-decoration: none; border-bottom: 1px dashed #1d4b8f; margin-left: 10px;">${menuItem.name}</a>
                         </div>
+                        <#if menuItem.line>
+                            <div style="height: 1px; border-bottom: 1px solid #e7e7e9; margin-top: 10px; margin-bottom: 10px;"></div>
+                        </#if>
                     </#list>
                 </#if>
             </td>

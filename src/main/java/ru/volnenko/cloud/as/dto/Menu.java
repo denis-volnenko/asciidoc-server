@@ -47,14 +47,17 @@ public final class Menu {
             final String menuKeyLink = name + "[" + key + "]_LINK";
             if (!map.containsKey(menuKeyLink)) continue;
 
+            final String menuKeyLine = name + "[" + key + "]_LINE";
             final String name = map.get(menuKeyName);
             if (name == null || name.isEmpty()) continue;
             final String link = map.get(menuKeyLink);
-            if (name == link || name.isEmpty()) continue;
+            if (link == null || link.isEmpty()) continue;
 
+            final String line = map.get(menuKeyLine);
             final MenuItem menuItem = new MenuItem();
             menuItem.setName(name);
             menuItem.setLink(link);
+            menuItem.setLine("true".equals(line));
 
             result.add(menuItem);
         }
@@ -70,6 +73,7 @@ public final class Menu {
             @NonNull final String pk = key
                     .replaceAll(name + "\\[","")
                     .replaceAll("\\]_NAME", "")
+                    .replaceAll("\\]_LINE", "")
                     .replaceAll("\\]_LINK", "");
             if (!isNumeric(pk)) continue;
             keys.add(pk);
@@ -91,6 +95,7 @@ public final class Menu {
         for (@NonNull final MenuItem item: items) {
             sb.append(name).append("[").append(i).append("]").append("_").append("NAME").append("=").append(item.getName()).append(";");
             sb.append(name).append("[").append(i).append("]").append("_").append("LINK").append("=").append(item.getLink()).append(";");
+            sb.append(name).append("[").append(i).append("]").append("_").append("LINE").append("=").append(item.getLine()).append(";");
             i++;
         }
         return sb.toString();
@@ -108,6 +113,7 @@ public final class Menu {
         for (@NonNull final MenuItem item: items) {
             sb.append(name).append("[").append(i).append("]").append("_").append("NAME").append("=").append(item.getName()).append("\n\r");
             sb.append(name).append("[").append(i).append("]").append("_").append("LINK").append("=").append(item.getLink()).append("\n\r");
+            sb.append(name).append("[").append(i).append("]").append("_").append("LINE").append("=").append(item.getLine()).append("\n\r");
             i++;
         }
         return sb.toString();
