@@ -1,5 +1,7 @@
 package ru.volnenko.cloud.as.component;
 
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import lombok.Cleanup;
 import lombok.NonNull;
 import lombok.SneakyThrows;
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public final class CustomHandler extends ResourceHandler {
@@ -23,9 +27,20 @@ public final class CustomHandler extends ResourceHandler {
     @NonNull
     private final ResourceService resourceService;
 
-    public CustomHandler(@NonNull final ResourceService resourceService) {
+    @NonNull
+    private final TemplateProcessor templateProcessor;
+
+    @NonNull
+    private final Template loginTemplate;
+
+    public CustomHandler(
+            @NonNull final ResourceService resourceService,
+            @NonNull final TemplateProcessor templateProcessor
+    ) {
         super(resourceService);
         this.resourceService = resourceService;
+        this.templateProcessor = templateProcessor;
+        this.loginTemplate = templateProcessor.getLoginTemplate();
     }
 
     @Override
@@ -36,11 +51,13 @@ public final class CustomHandler extends ResourceHandler {
             @NonNull final HttpServletResponse response
     ) throws IOException, ServletException {
         @NonNull final String file = FileUtil.prepare(request.getRequestURI());
+        if (auth(baseRequest, request, response, file)) return;
         if (login(baseRequest, request, response, file)) return;
         if (logout(baseRequest, request, response, file)) return;
+
         if (!auth(request, response)) return;
         if (assets(baseRequest, request, response, file)) return;
-        process(baseRequest, request, response);
+        auth(baseRequest, request, response);
     }
 
     private boolean auth(
@@ -49,7 +66,6 @@ public final class CustomHandler extends ResourceHandler {
     ) {
         Cookie[] cookies = request.getCookies();
         if (cookies == null) return false;
-
         return true;
     }
 
@@ -70,13 +86,34 @@ public final class CustomHandler extends ResourceHandler {
         response.sendRedirect("/");
         return true;
     }
+
+    @SneakyThrows
     private boolean login(
             @NonNull final Request baseRequest,
             @NonNull final HttpServletRequest request,
             @NonNull final HttpServletResponse response,
             @NonNull final String file
-    ) throws IOException {
+    ) {
         if (!file.equals("login/")) return false;
+        final String method = request.getMethod();
+        if (!"GET".equals(method)) return false;
+        final Map<String, Object> data = new LinkedHashMap<>();
+        data.put("caption", EnvUtil.caption());
+        data.put("title", "Авторизация");
+        data.put("footer", EnvUtil.footer());
+        data.put("menuLeftSize", EnvUtil.menuLeftSize());
+        response.setCharacterEncoding("UTF-8");
+        loginTemplate.process(data, response.getWriter());
+        return true;
+    }
+
+    private boolean auth(
+            @NonNull final Request baseRequest,
+            @NonNull final HttpServletRequest request,
+            @NonNull final HttpServletResponse response,
+            @NonNull final String file
+    ) throws IOException {
+        if (!file.equals("auth/")) return false;
         final String method = request.getMethod();
         if (!"POST".equals(method)) return false;
         final String username = request.getParameter("username");
@@ -115,7 +152,7 @@ public final class CustomHandler extends ResourceHandler {
         return true;
     }
 
-    private void process(
+    private void auth(
             @NonNull final Request baseRequest,
             @NonNull final HttpServletRequest request,
             @NonNull final HttpServletResponse response

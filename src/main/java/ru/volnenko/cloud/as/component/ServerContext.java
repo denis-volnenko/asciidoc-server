@@ -6,13 +6,8 @@ import org.apache.log4j.BasicConfigurator;
 import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.DefaultHandler;
-import org.eclipse.jetty.server.handler.ErrorHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import ru.volnenko.cloud.as.util.EnvUtil;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public final class ServerContext {
 
@@ -26,10 +21,10 @@ public final class ServerContext {
     private final String[] welcomeFiles = welcomeFiles();
 
     @NonNull
-    private final TemplateProcessor processorFreeMarker = new TemplateProcessor();
+    private final TemplateProcessor templateProcessor = new TemplateProcessor();
 
     @NonNull
-    private final ProcessorAsciiDoc processorAsciiDoc = new ProcessorAsciiDoc(processorFreeMarker);
+    private final ProcessorAsciiDoc processorAsciiDoc = new ProcessorAsciiDoc(templateProcessor);
 
     @NonNull
     private final Processor[] processors = new Processor[] { processorAsciiDoc };
@@ -41,10 +36,10 @@ public final class ServerContext {
     private final FileService fileService = new FileService(processors);
 
     @NonNull
-    private final CustomHandler customHandler = customHandler(fileService, welcomeFiles);
+    private final CustomHandler customHandler = customHandler(fileService, templateProcessor, welcomeFiles);
 
     @NonNull
-    private final CustomErrorHandler customErrorHandler = new CustomErrorHandler(processorFreeMarker);
+    private final CustomErrorHandler customErrorHandler = new CustomErrorHandler(templateProcessor);
 
     @NonNull
     private final ContextHandler contextHandler = contextHandler(customHandler);
@@ -63,9 +58,10 @@ public final class ServerContext {
     @NonNull
     private CustomHandler customHandler(
             @NonNull final FileService fileService,
+            @NonNull final TemplateProcessor templateProcessor,
             @NonNull final String[] welcomeFiles
     ) {
-        @NonNull final CustomHandler resourceHandler = new CustomHandler(fileService);
+        @NonNull final CustomHandler resourceHandler = new CustomHandler(fileService, templateProcessor);
         resourceHandler.setDirectoriesListed(EnvUtil.directoriesListed());
         resourceHandler.setRedirectWelcome(EnvUtil.redirectWelcome());
         resourceHandler.setWelcomeFiles(welcomeFiles);

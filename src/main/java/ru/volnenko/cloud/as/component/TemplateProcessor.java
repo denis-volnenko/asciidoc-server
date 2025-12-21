@@ -20,6 +20,9 @@ public final class TemplateProcessor {
     private final static String INDEX = "index.ftl";
 
     @NonNull
+    private final static String LOGIN = "login.ftl";
+
+    @NonNull
     private final static String ERROR = "error.ftl";
 
     @NonNull
@@ -65,6 +68,13 @@ public final class TemplateProcessor {
     public Template getIndexTemplate() {
         return classTemplateConfiguration.getTemplate(INDEX);
     }
+
+    @NonNull
+    @SneakyThrows
+    public Template getLoginTemplate() {
+        return classTemplateConfiguration.getTemplate(LOGIN);
+    }
+
 
     @NonNull
     @SneakyThrows
