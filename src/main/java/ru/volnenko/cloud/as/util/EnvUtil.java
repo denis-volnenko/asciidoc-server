@@ -6,6 +6,18 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class EnvUtil {
 
+    public static String authPassword() {
+        return value("AUTH_PASSWORD", "admin");
+    }
+
+    public static String authUsername() {
+        return value("AUTH_USERNAME", "admin");
+    }
+
+    public static boolean authEnabled() {
+        return value("AUTH_ENABLED", "true").equals("true");
+    }
+
     public static boolean directoriesListed() {
         return value("DIRECTORIES_LISTED", "true").equals("true");
     }
