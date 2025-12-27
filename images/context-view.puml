@@ -1,0 +1,20 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+left to right direction
+LAYOUT_WITH_LEGEND()
+
+Person(user, "User")
+
+System_Boundary(k8s, "k8s") {
+    Container(asciidoc_server, "asciidoc-server", "Container")
+    Container(filebrowser, "filebrowser", "Container")
+    ContainerDb(volume, "volume", "local path")
+}
+
+Rel(user, asciidoc_server, "view docs")
+Rel(user, filebrowser, "edit docs")
+
+Rel(asciidoc_server, volume, "RO")
+Rel(filebrowser, volume, "RW")
+
+@enduml

@@ -5,23 +5,6 @@
 
 == DEMO
 
-[source,xml]
-----
-<plugin>
-    <groupId>ru.volnenko.maven.plugin</groupId>
-    <artifactId>liquibase-asciidoc-maven-plugin</artifactId>
-    <version>1.0.0</version>
-    <configuration>
-        <serviceName>Task Manager</serviceName>
-        <dataBaseInfo>Postgres 15</dataBaseInfo>
-        <outputPath>${project.basedir}/src/main/asciidoc/database</outputPath>
-        <paths>
-            <path>${project.basedir}/src/main/resources/database</path>
-        </paths>
-    </configuration>
-</plugin>
-----
-
 [source,java]
 ----
 public class HelloWorld {
