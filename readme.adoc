@@ -16,5 +16,8 @@
 |*DockerHub*
 |https://hub.docker.com/r/volnenko/asciidoc-server
 
-
 |===
+
+== Context View
+
+image::images/context-view.svg[]
